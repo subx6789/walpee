@@ -5,6 +5,7 @@ import {
   Pressable,
   ScrollView,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,14 +16,17 @@ import Categories from "../../components/categories";
 import { apiCall } from "../../api";
 import ImageGrid from "../../components/imageGrid";
 import { debounce } from "lodash";
+import FiltersModal from "../../components/filtersModal";
 let page = 1;
 const HomeScreen = () => {
   const { top } = useSafeAreaInsets();
   const paddingTop = top > 0 ? top + 10 : 30;
   const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState(null);
   const [images, setImages] = useState([]);
   const searchInputRef = useRef();
   const [activeCategory, setActiveCategory] = useState(null);
+  const modalRef = useRef(null);
   useEffect(() => {
     fetchImages();
   }, []);
@@ -33,6 +37,7 @@ const HomeScreen = () => {
     page = 1;
     let params = {
       page,
+      ...filters,
     };
     if (cat) {
       params.category = cat;
@@ -49,13 +54,13 @@ const HomeScreen = () => {
       page = 1;
       setImages([]);
       setActiveCategory(null); //clear category when searching
-      fetchImages({ page, q: text }, false);
+      fetchImages({ page, q: text, ...filters }, false);
     } else if (text === "") {
       page = 1;
       searchInputRef?.current?.clear();
       setImages([]);
       setActiveCategory(null); //clear category when searching
-      fetchImages({ page }, false);
+      fetchImages({ page, ...filters }, false);
     }
   };
 
@@ -73,6 +78,67 @@ const HomeScreen = () => {
       }
     }
   };
+
+  const openFiltersModal = () => {
+    modalRef?.current?.present();
+  };
+  const closeFiltersModal = () => {
+    modalRef?.current?.close();
+  };
+  const applyFilters = () => {
+    if (filters) {
+      page = 1;
+      setImages([]);
+      let params = {
+        page,
+        ...filters,
+      };
+      if (activeCategory) {
+        params.category = activeCategory;
+      }
+      if (search) {
+        params.q = search;
+      }
+      fetchImages(params, false);
+    }
+    closeFiltersModal();
+  };
+  const resetFilters = () => {
+    if (filters) {
+      page = 1;
+      setFilters(null);
+      setImages([]);
+      let params = {
+        page,
+      };
+      if (activeCategory) {
+        params.category = activeCategory;
+      }
+      if (search) {
+        params.q = search;
+      }
+      fetchImages(params, false);
+    }
+    closeFiltersModal();
+  };
+  const clearFilter = (filterName) => {
+    let filterz = { ...filters };
+    delete filterz[filterName];
+    setFilters({ ...filterz });
+    page = 1;
+    setImages([]);
+    let params = {
+      page,
+      ...filterz,
+    };
+    if (activeCategory) {
+      params.category = activeCategory;
+    }
+    if (search) {
+      params.q = search;
+    }
+    fetchImages(params, false);
+  };
   return (
     <View style={[styles.container, { paddingTop }]}>
       {/* Header */}
@@ -80,7 +146,7 @@ const HomeScreen = () => {
         <Pressable>
           <Text style={styles.title}>Walpee</Text>
         </Pressable>
-        <Pressable>
+        <Pressable onPress={openFiltersModal}>
           <FontAwesome6
             name="bars-staggered"
             size={22}
@@ -131,9 +197,61 @@ const HomeScreen = () => {
             handleChangeCategory={handleChangeCategory}
           />
         </View>
+        {/* Applied Filter */}
+        {filters && (
+          <View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.filters}
+            >
+              {Object.keys(filters).map((key, index) => {
+                return (
+                  <View key={key} style={styles.filterItem}>
+                    {key === "colors" ? (
+                      <View
+                        style={{
+                          height: 25,
+                          width: 30,
+                          borderRadius: theme.radius.xs,
+                          borderCurve: "continuous",
+                          backgroundColor: filters[key],
+                        }}
+                      />
+                    ) : (
+                      <Text style={styles.filterItemText}>{filters[key]}</Text>
+                    )}
+                    <Pressable onPress={() => clearFilter(key)}>
+                      <Ionicons
+                        name="close"
+                        size={16}
+                        color={theme.colors.neutral(0.9)}
+                      />
+                    </Pressable>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          </View>
+        )}
         {/* Images Masonry Grid */}
         <View>{images.length > 0 && <ImageGrid images={images} />}</View>
+        {/* Loading */}
+        <View
+          style={{ marginBottom: 70, marginTop: images.length > 0 ? 10 : 70 }}
+        >
+          <ActivityIndicator size={"large"} />
+        </View>
       </ScrollView>
+      {/* Filters Modal */}
+      <FiltersModal
+        filters={filters}
+        setFilters={setFilters}
+        onClose={closeFiltersModal}
+        onApply={applyFilters}
+        onReset={resetFilters}
+        modalRef={modalRef}
+      />
     </View>
   );
 };
@@ -178,6 +296,23 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.neutral(0.1),
     padding: 8,
     borderRadius: theme.radius.sm,
+  },
+  filters: {
+    paddingHorizontal: wp(4),
+    gap: 10,
+  },
+  filterItem: {
+    backgroundColor: theme.colors.grayBG,
+    padding: 11,
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: theme.radius.xs,
+    borderCurve: "continuous",
+    gap: 10,
+    paddingHorizontal: 10,
+  },
+  filterItemText: {
+    fontSize: hp(1.5),
   },
 });
 
