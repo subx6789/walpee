@@ -21,7 +21,7 @@ const FiltersModal = ({
   onApply,
   onReset,
 }) => {
-  const snapPoints = useMemo(() => ["65%"], []);
+  const snapPoints = useMemo(() => ["80%"], []);
   const renderBackdrop = useCallback(
     (props) => <CustomBackdrop {...props} onClose={onClose} />,
     [onClose]
