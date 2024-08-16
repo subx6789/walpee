@@ -68,6 +68,12 @@
         "projectId": "b9f37bc6-1888-45e0-93e7-b6278e0a9b00"
       }
     },
-    "owner": "subx6789"
+    "owner": "subx6789",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b9f37bc6-1888-45e0-93e7-b6278e0a9b00"
+    }
   }
 }
