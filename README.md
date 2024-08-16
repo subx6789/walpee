@@ -13,7 +13,7 @@ Walpee is a wallpaper application built with Expo and React Native. It allows us
 - **Order:** Popular or Latest
 - **Orientation:** Horizontal or Vertical
 - **Type:** Photo, Illustration, or Vector
-- **Colors:** Select from a palette of colors
+- **Colors:** Select from a palette of colours
 
 **Image Modal:** Tap on any wallpaper to open it in a modal with the following options:
 
@@ -21,11 +21,22 @@ Walpee is a wallpaper application built with Expo and React Native. It allows us
 - **Share:** Share the image with others
 - **Close:** Close the modal to return to browsing
 
-**Pagination:** Load images efficiently with pagination, ensuring that not all images load at once, improving performance and user experience.
+**Pagination:** Load images efficiently with pagination, ensuring that not all photos load simultaneously, improving performance and user experience.
 
 ## Wireframes
 
+![Screenshot 2024-08-16 143037](https://github.com/user-attachments/assets/ede50726-1bc1-474a-8662-46874588d850)
+
 ## Screenshots
+
+![1](https://github.com/user-attachments/assets/991219d1-22f2-4edf-ae52-58d92eacd777)
+![2](https://github.com/user-attachments/assets/9b88efe8-37ec-4926-aabf-7191f258b716)
+![3](https://github.com/user-attachments/assets/7e49d47c-0843-4774-833f-8c1af298dcb6)
+![4](https://github.com/user-attachments/assets/33d85922-6080-465e-9c55-5433e2323009)
+![5](https://github.com/user-attachments/assets/4b427539-aaaa-4c5c-9b26-5f0bf9d4dd41)
+![6](https://github.com/user-attachments/assets/60659c7c-7bcb-490b-8d77-c1f14d667a23)
+![7](https://github.com/user-attachments/assets/b04db0a7-2b8f-4bc7-a5bc-0c3aba5d78ff)
+![8](https://github.com/user-attachments/assets/9402ea4b-36cc-4a9c-9e4d-237247525cd0)
 
 ## Installation
 
@@ -57,7 +68,7 @@ Alternatively, you can run the app on an iOS or Android emulator.
 
 ## Usage
 
-- Open the app and tap on let's explore button to browse the latest wallpapers.
+- Open the app and tap on the Let's Explore button to browse the latest wallpapers.
 - Use the search bar to find specific images.
 - Apply filters to narrow down your search.
 - Tap on any image to open it in a modal and access the download, share, and close options.
