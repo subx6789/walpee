@@ -34,7 +34,7 @@ To run Walpee locally, follow these steps:
 - Clone the repository:
 
   ```bash
-   git clone https://github.com/yourusername/walpee.git
+   git clone https://github.com/subx6789/walpee.git
    cd walpee
   ```
 
@@ -69,3 +69,7 @@ Contributions are welcome! If you have any ideas or suggestions, feel free to su
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+## My App
+
+**Link:** [Walpee](https://expo.dev/accounts/subx6789/projects/walpee/builds/da86aa91-0b97-479d-91e1-04ea910f4b67)
